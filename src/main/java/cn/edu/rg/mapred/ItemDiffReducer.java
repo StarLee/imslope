@@ -1,0 +1,71 @@
+package cn.edu.rg.mapred;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+
+import cn.edu.rg.ItemDiffInfo;
+import cn.edu.rg.KeyPair;
+import cn.edu.rg.KeyPairValue;
+/**
+ * 形成差值表
+ * @author starlee
+ *
+ */
+public class ItemDiffReducer extends
+		Reducer<KeyPair, KeyPairValue, LongWritable, Text>
+{
+	@Override
+	protected void reduce(KeyPair key, Iterable<KeyPairValue> value,
+			Context context) throws IOException, InterruptedException
+	{
+		float totalRating = 0;
+		long totalUser = 0;
+		//List<KeyPairValue> ls = new ArrayList<KeyPairValue>();//像这种内存性的东西，真的怀疑如果这个key中有很多很多，那要如何处理，比如这个KEY对应10w
+		for (KeyPairValue v : value)
+		{
+			/*KeyPairValue newValue=new KeyPairValue();
+			newValue.setBaseRating(v.getBaseRating());
+			newValue.setCompareRating(v.getCompareRating());
+			newValue.setDiff(v.getDiff());
+			newValue.setUser(v.getUser());*/
+			totalRating += v.getDiff();
+			totalUser++;
+			//ls.add(newValue);
+		}
+		/*ItemDiffInfo info = new ItemDiffInfo();
+		info.setAverageRating(totalRating / (float) totalUser);
+		info.setTotalRating(totalRating);
+		info.setTotalUser(totalUser);
+		context.write(key, info);*/
+		//由于要保持数据格式一致故上面的形式不能正常
+		LongWritable basicKey=key.getBaseKey();
+		StringBuilder str=new StringBuilder("0:");//这是tag标记
+		str.append(key.getCompareKey().get());
+		str.append(":");
+		str.append(totalRating);
+		str.append(":");
+		str.append(totalUser);
+		str.append(":");
+		str.append(totalRating / (float) totalUser);
+		context.write(basicKey, new Text(str.toString()));
+		/*for (KeyPairValue pairValue : ls)
+		{
+			ItemDiffInfo info = new ItemDiffInfo();
+			info.setAverageRating(totalRating / (float) totalUser);
+			info.setTotalRating(totalRating);
+			info.setTotalUser(totalUser);
+			info.setBasicRating(pairValue.getBaseRating());
+			info.setCompairRating(pairValue.getCompareRating());
+			info.setUser(pairValue.getUser());
+			context.write(key, info);
+		}*/
+	}
+
+}

@@ -1,0 +1,4 @@
+-e -X clean package hadoop:submitJob 
+cn.edu.main.Main是计算的主类
+cn.edu.main.MainReadResult是结果的读取
+运行时，请注意依赖包找不到的问题，目前主要是指log4j2日志
