@@ -52,9 +52,12 @@ public class Test
 		job.setMapperClass(UsersMapper.class);
 		job.setMapOutputKeyClass(User.class);
 		job.setMapOutputValueClass(Item.class);
-		job.setReducerClass(UserItemsReducer.class);
+		/*job.setReducerClass(UserItemsReducer.class);
 		job.setOutputKeyClass(KeyPair.class);
-		job.setOutputValueClass(KeyPairValue.class);
+		job.setOutputValueClass(KeyPairValue.class);*/
+		job.setReducerClass(UserItemsReducer.class);
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(Text.class);
 		FileInputFormat.addInputPath(job, new Path("/slopetest/test.data"));
 		Path path = new Path("/slopetest/output/sequence");
 		FileSystem fs = FileSystem.get(new Configuration());
@@ -72,16 +75,21 @@ public class Test
 		job.setNumReduceTasks(4);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setInputFormatClass(SequenceFileInputFormat.class);
-		job.setMapOutputKeyClass(KeyPair.class);
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(Text.class);
+		job.setOutputFormatClass(SequenceFileOutputFormat.class);
+		job.setMapperClass(ItemDiffTextMapper.class);
+		job.setReducerClass(ItemDiffTextReducer.class);
+		job.setOutputKeyClass(LongWritable.class);
+		job.setOutputValueClass(Text.class);
+/*		job.setMapOutputKeyClass(KeyPair.class);
 		job.setMapOutputValueClass(KeyPairValue.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setMapperClass(ItemDiffMapper.class);
 		job.setReducerClass(ItemDiffReducer.class);
-		//job.setOutputKeyClass(KeyPair.class);
-		//job.setOutputValueClass(ItemDiffInfo.class);
 		job.setOutputKeyClass(LongWritable.class);
 		job.setOutputValueClass(Text.class);
-		FileInputFormat.addInputPath(job, src_path);
+*/		FileInputFormat.addInputPath(job, src_path);
 		Path path = new Path("/slopetest/output/diff");
 		FileSystem fs = FileSystem.get(conf);
 		if (fs.exists(path))

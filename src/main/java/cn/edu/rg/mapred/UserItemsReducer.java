@@ -18,19 +18,18 @@ import cn.edu.rg.KeyPair;
 import cn.edu.rg.KeyPairValue;
 import cn.edu.rg.User;
 
-public class UserItemsReducer extends Reducer<User, Item, KeyPair, KeyPairValue> {
+//public class UserItemsReducer extends Reducer<User, Item, KeyPair, KeyPairValue> {
+public class UserItemsReducer extends Reducer<User, Item, Text, Text> {
 
 	private Logger log=LogManager.getLogger(UserItemsReducer.class);
 	@Override
 	protected void reduce(User key, Iterable<Item> value, Context context)
 			throws IOException, InterruptedException {
-		
 		//value这个迭代器只能迭代一次就会被清空,即使通过context.getValues()也是一次使用后消失
 		//所以这个地方先把结果取出来放到内存然后才可以重复利用,有一个问题是如果内存不够用怎么办，所以这个地方应该是两个同样（在map上write两次）的文件，标识来自己不同的文件
 		//以后这个地方得优化，不能每一次都计算，应该去掉一些，另外一个用户的所有申请的项目记录都不是太多，也就是说这个矩阵其实很稀疏
 		List<Item> list=new ArrayList<Item>();
-		
-		int n=0;
+		//int n=0;
 		Iterator<Item> i=value.iterator();
 		while(i.hasNext())
 		{
@@ -40,7 +39,7 @@ public class UserItemsReducer extends Reducer<User, Item, KeyPair, KeyPairValue>
 			item.setRating(ie.getRating());
 			list.add(item);
 		}
-		log.info(key.getId()+":"+list.size()+":start");
+		//log.info(key.getId()+":"+list.size()+":start");
 		Iterator<Item> it=list.iterator();
 		while(it.hasNext())
 		{
@@ -58,17 +57,34 @@ public class UserItemsReducer extends Reducer<User, Item, KeyPair, KeyPairValue>
 				KeyPair keypair=new KeyPair();
 				keypair.setBaseKey(new LongWritable(basic.getId()));
 				keypair.setCompareKey(new LongWritable(compare.getId()));
-				KeyPairValue keyPairValue=new KeyPairValue();
+				KeyPairValue keyPairValue=new KeyPairValue();//
 				//keyPairValue.setBaseRating(basic.getRating());
 				//keyPairValue.setCompareRating(compare.getRating());
 				keyPairValue.setDiff(diff);
 				//keyPairValue.setUser(key.getId());
-				n++;
-				context.write(keypair, keyPairValue);
+				//n++;
+				//如果全部以字符串的形式会不会变得小点
+				//context.write(keypair, keyPairValue);
+				
+				Text keyText=new Text();
+				StringBuffer keybuffer=new StringBuffer();
+				keybuffer.append(keypair.getBaseKey());
+				keybuffer.append(":");
+				keybuffer.append(keypair.getCompareKey());
+				keyText.set(keybuffer.toString());
+				
+				Text valueText=new Text();
+				StringBuffer valuebuffer=new StringBuffer();
+				valuebuffer.append(keyPairValue.getDiff());
+				valuebuffer.append(":");
+				valuebuffer.append(keyPairValue.getNumber());
+				valueText.set(valuebuffer.toString());
+				context.write(keyText, valueText);
+				
 			}
 			
 		}
-		log.info(key.getId()+"----"+n+":end");
+		//log.info(key.getId()+"----"+n+":end");
 	}
 
 

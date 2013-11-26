@@ -18,24 +18,25 @@ import cn.edu.rg.KeyPairValue;
  * @author starlee
  *
  */
-public class ItemDiffReducer extends
-		Reducer<KeyPair, KeyPairValue, LongWritable, Text>
+public class ItemDiffTextReducer extends
+		Reducer<Text, Text, LongWritable, Text>
 {
 	@Override
-	protected void reduce(KeyPair key, Iterable<KeyPairValue> value,
+	protected void reduce(Text key, Iterable<Text> value,
 			Context context) throws IOException, InterruptedException
 	{
 		float totalRating = 0;
 		long totalUser = 0;
 		//List<KeyPairValue> ls = new ArrayList<KeyPairValue>();//像这种内存性的东西，真的怀疑如果这个key中有很多很多value，那要如何处理，比如这个KEY对应10w
-		for (KeyPairValue v : value)
+		for (Text v : value)
 		{
 			/*KeyPairValue newValue=new KeyPairValue();
 			newValue.setBaseRating(v.getBaseRating());
 			newValue.setCompareRating(v.getCompareRating());
 			newValue.setDiff(v.getDiff());
 			newValue.setUser(v.getUser());*/
-			totalRating += v.getDiff();
+		
+			totalRating += Float.parseFloat(	v.toString().split(":")[0]);
 			totalUser++;
 			//ls.add(newValue);
 		}
@@ -45,9 +46,10 @@ public class ItemDiffReducer extends
 		info.setTotalUser(totalUser);
 		context.write(key, info);*/
 		//由于要保持数据格式一致故上面的形式不能正常
-		LongWritable basicKey=key.getBaseKey();
+		String[] keys=key.toString().split(":");
+		LongWritable basicKey=new LongWritable(Long.parseLong(keys[0]));
 		StringBuilder str=new StringBuilder("0:");//这是tag标记
-		str.append(key.getCompareKey().get());
+		str.append(keys[1]);
 		str.append(":");
 		str.append(totalRating);
 		str.append(":");
