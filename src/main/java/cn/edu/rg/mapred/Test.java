@@ -31,9 +31,9 @@ public class Test
 		Path predict=new Path("/slopetest/predict.data");
 		FileSystem fs = FileSystem.get(new Configuration());
 		if (!fs.exists(path))
-			fs.copyFromLocalFile(new Path("file:///home/starlee/test.data"), path);//从数据库直接得到的评分数据,备份在data/predict.data与data/test.data中
+			fs.copyFromLocalFile(new Path("file:///opt/test.data"), path);//从数据库直接得到的评分数据,备份在data/predict.data与data/test.data中
 		if(!fs.exists(predict))
-			fs.copyFromLocalFile(new Path("file:///home/starlee/predict.data"), predict);//通过分析用户之间的关系，物品之间的关系得到的对于一个用户对其要计算推荐的数据
+			fs.copyFromLocalFile(new Path("file:///opt/predict.data"), predict);//通过分析用户之间的关系，物品之间的关系得到的对于一个用户对其要计算推荐的数据
 	}
 
 	/**
@@ -69,6 +69,7 @@ public class Test
 		Configuration conf = new Configuration();
 		Job job = new Job(conf);
 		job.setJarByClass(Test.class);
+		job.setNumReduceTasks(4);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setInputFormatClass(SequenceFileInputFormat.class);
 		job.setMapOutputKeyClass(KeyPair.class);

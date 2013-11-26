@@ -15,10 +15,10 @@ public class PredictMapper extends Mapper<LongWritable, Text, LongWritable, Item
 	{
 		String[] records=value.toString().split("\t");
 		ItemPredictStatus status=new ItemPredictStatus();
-		if(records.length>=4)//评分表
+		if(records.length>=4)//评分表,以后可以用具体其它标识
 		{
-			String userID=records[0];//用户ID
-			String itemID=records[1];//项目ID
+			String userID=records[1];//用户ID
+			String itemID=records[0];//项目ID
 			String rating=records[2];//评分
 			long user=Long.parseLong(userID);
 			status.setTag((byte)0x0);
@@ -29,7 +29,7 @@ public class PredictMapper extends Mapper<LongWritable, Text, LongWritable, Item
 			ky.set(user);
 			context.write(ky,status);
 		}
-		else//预评分表
+		else//预评分表,以后可以用具体其它标识
 		{
 			String userID=records[0];//用户ID
 			String itemID=records[1];//项目ID

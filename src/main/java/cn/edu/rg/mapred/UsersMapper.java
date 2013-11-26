@@ -16,8 +16,9 @@ public class UsersMapper extends Mapper<LongWritable,Text,User,Item> {
 			throws IOException, InterruptedException {
 			String line=value.toString();
 			String[] records=line.split("\t");
-			String userID=records[0];//用户ID
-			String itemID=records[1];//项目ID
+			
+			String userID=records[1];//用户ID
+			String itemID=records[0];//项目ID
 			String rating=records[2];//用户对其评分
 			User user=new User();
 			user.setId(Long.parseLong(userID));
