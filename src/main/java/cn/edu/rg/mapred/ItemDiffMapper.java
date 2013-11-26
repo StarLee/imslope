@@ -16,7 +16,7 @@ public class ItemDiffMapper extends Mapper<KeyPair,KeyPairValue,KeyPair,KeyPairV
 	protected void map(KeyPair key, KeyPairValue value,Context context)
 			throws IOException, InterruptedException
 	{
-		context.write(key, value);
+		context.write(key, value);//不能直接输出，可以做优化
 	}
 	
 }
