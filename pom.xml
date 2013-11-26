@@ -72,12 +72,12 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
+							<classpathPrefix>lib/*</classpathPrefix>
 							<!-- <mainClass>cn.edu.main.Main</mainClass> -->
 							<mainClass>cn.edu.main.MainReadResult</mainClass>
 						</manifest>
 					</archive>
-					
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -88,10 +88,33 @@
 					<hadoopHome>/opt/HADOOP</hadoopHome>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									 <mainClass>cn.edu.main.Main</mainClass>
+									<!--<mainClass>cn.edu.main.MainReadResult</mainClass>-->
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

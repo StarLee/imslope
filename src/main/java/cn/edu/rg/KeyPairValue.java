@@ -12,7 +12,21 @@ import org.apache.hadoop.io.Writable;
  */
 public class KeyPairValue implements Writable
 {
-	public long getUser()
+	//private long user;
+	//private float baseRating;
+	//private float compareRating;
+	private float diff;
+	private int number=1;
+	
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	/*public long getUser()
 	{
 		return user;
 	}
@@ -40,7 +54,7 @@ public class KeyPairValue implements Writable
 	public void setCompareRating(float compareRating)
 	{
 		this.compareRating = compareRating;
-	}
+	}*/
 
 	public float getDiff()
 	{
@@ -52,28 +66,24 @@ public class KeyPairValue implements Writable
 		this.diff = diff;
 	}
 
-	private long user;
-	private float baseRating;
-	private float compareRating;
-	private float diff;
+	
 	
 	public void readFields(DataInput arg0) throws IOException
 	{
-		this.user=arg0.readLong();
-		this.baseRating=arg0.readFloat();
-		this.compareRating=arg0.readFloat();
+		//this.user=arg0.readLong();
+		//this.baseRating=arg0.readFloat();
+		//this.compareRating=arg0.readFloat();
 		this.diff=arg0.readFloat();
+		this.number=arg0.readInt();
 		
 	}
-
-	
 	public void write(DataOutput arg0) throws IOException
 	{
-		arg0.writeLong(this.user);
-		arg0.writeFloat(this.baseRating);
-		arg0.writeFloat(this.compareRating);
+		//arg0.writeLong(this.user);
+		//arg0.writeFloat(this.baseRating);
+		//arg0.writeFloat(this.compareRating);
 		arg0.writeFloat(this.diff);
-		
+		arg0.writeInt(this.number);
 	}
 
 }
