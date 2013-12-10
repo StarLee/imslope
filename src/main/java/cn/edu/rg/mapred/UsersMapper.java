@@ -27,7 +27,6 @@ public class UsersMapper extends Mapper<LongWritable, Text, User, Item> {
 			itemrecord.setId(Long.parseLong(itemID));
 			itemrecord.setRating(Float.parseFloat(rating));
 			context.write(user, itemrecord);//对于里面的每一条记录写用户与值的形式，输出给reduce针对每一个user处理
-
 	}
 
 }
