@@ -35,9 +35,9 @@ public class ItemDiffTextReducer extends
 			newValue.setCompareRating(v.getCompareRating());
 			newValue.setDiff(v.getDiff());
 			newValue.setUser(v.getUser());*/
-		
-			totalRating += Float.parseFloat(	v.toString().split(":")[0]);
-			totalUser++;
+			String[] ratingValue=v.toString().split(":");//前面部分是评分，后面是用户数
+			totalRating += Float.parseFloat(ratingValue[0]);
+			totalUser+=Integer.parseInt(ratingValue[1]);
 			//ls.add(newValue);
 		}
 		/*ItemDiffInfo info = new ItemDiffInfo();

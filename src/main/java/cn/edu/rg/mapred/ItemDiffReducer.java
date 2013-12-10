@@ -36,7 +36,7 @@ public class ItemDiffReducer extends
 			newValue.setDiff(v.getDiff());
 			newValue.setUser(v.getUser());*/
 			totalRating += v.getDiff();
-			totalUser++;
+			totalUser+=v.getNumber();
 			//ls.add(newValue);
 		}
 		/*ItemDiffInfo info = new ItemDiffInfo();

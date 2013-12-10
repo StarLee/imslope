@@ -103,7 +103,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									 <mainClass>cn.edu.main.Main</mainClass>
-									<!--<mainClass>cn.edu.main.MainReadResult</mainClass>-->
+									<!-- <mainClass>cn.edu.main.MainReadResult</mainClass> -->
 								</transformer>
 							</transformers>
 						</configuration>

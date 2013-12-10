@@ -23,6 +23,7 @@ public class TestCalculate
 		Configuration conf=new Configuration();
 		Job job=new Job(conf);
 		job.setJarByClass(Test.class);
+		job.setJobName("predict_result");
 		job.setInputFormatClass(SequenceFileInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setMapperClass(CalculateMap.class);

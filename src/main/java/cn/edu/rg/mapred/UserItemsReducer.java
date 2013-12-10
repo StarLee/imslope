@@ -80,7 +80,6 @@ public class UserItemsReducer extends Reducer<User, Item, Text, Text> {
 				valuebuffer.append(keyPairValue.getNumber());
 				valueText.set(valuebuffer.toString());
 				context.write(keyText, valueText);
-				
 			}
 			
 		}

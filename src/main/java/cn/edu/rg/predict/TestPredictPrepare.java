@@ -27,6 +27,7 @@ public class TestPredictPrepare
 		Configuration conf=new Configuration();
 		Job job=new Job(conf);
 		job.setJarByClass(Test.class);
+		job.setJobName("prepare_predict_process");
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setMapperClass(PredictMapper.class);
