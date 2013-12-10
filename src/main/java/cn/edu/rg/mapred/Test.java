@@ -46,6 +46,7 @@ public class Test
 	{
 		Configuration conf = new Configuration();
 		Job job = new Job(conf);
+		job.setJobName("collect_records");
 		job.setJarByClass(Test.class);
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
@@ -72,6 +73,7 @@ public class Test
 		Configuration conf = new Configuration();
 		Job job = new Job(conf);
 		job.setJarByClass(Test.class);
+		job.setJobName("collect_diff_key");
 		job.setNumReduceTasks(4);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setInputFormatClass(SequenceFileInputFormat.class);
@@ -79,6 +81,7 @@ public class Test
 		job.setMapOutputValueClass(Text.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setMapperClass(ItemDiffTextMapper.class);
+		//job.setCombinerClass(ItemDiffTextCombiner.class);
 		job.setReducerClass(ItemDiffTextReducer.class);
 		job.setOutputKeyClass(LongWritable.class);
 		job.setOutputValueClass(Text.class);

@@ -25,6 +25,7 @@ public class TestJoinTable
 		Configuration conf=new Configuration();
 		Job job=new Job(conf);
 		job.setJarByClass(Test.class);
+		job.setJobName("join_and_predict");
 		job.setInputFormatClass(SequenceFileInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		job.setMapOutputKeyClass(KeyPair.class);
