@@ -25,7 +25,7 @@ public class JoinTableMap extends Mapper<LongWritable, Text, KeyPair, Text>
 		String[] item = value.toString().split(":");
 		int tag = Integer.parseInt(item[0]);
 		// if(tag==0)//这是差值表的记录
-		if (tag == 0)// 这是差值表的记录
+		if (tag == 0)// 这是差值表的记录，从训练数据集中
 		{
 			KeyPair pair = new KeyPair();
 			pair.setBaseKey(key);

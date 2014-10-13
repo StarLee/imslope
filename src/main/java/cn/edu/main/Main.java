@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.tools.ant.taskdefs.Sleep;
 
 import cn.edu.rg.calculate.TestCalculate;
 import cn.edu.rg.mapred.Test;
@@ -55,6 +56,7 @@ public class Main {
 		jobControl.addJobCollection(allJobs);
 		new Thread(jobControl).start();
 		while (true) {
+			//Thread.sleep(100);
 			if (jobControl.allFinished()) {
 				System.out.println("process is over");
 				break;
